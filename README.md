@@ -126,84 +126,84 @@ This function is similar to the previous one, because its task is to find the to
 These two functions set the linear and the angular velocity and they control the motor which moves the robot.
 
 # Pseudocode of the Program
-Import necessary libraries and modules
+-Import necessary libraries and modules
 
-Initialize global variables and constants
-Define functions for robot movements and token handling
+-Initialize global variables and constants
+-Define functions for robot movements and token handling
 
-Function `drive(speed, seconds)`:
-    Set linear velocity of robot wheels
-    Wait for specified time interval
-    Stop robot motors
+-Function `drive(speed, seconds)`:
+    -Set linear velocity of robot wheels
+    -Wait for specified time interval
+    -Stop robot motors
 
-Function `turn(speed, seconds)`:
-    Set angular velocity of robot wheels for turning
-    Wait for specified time interval
-    Stop robot motors
+-Function `turn(speed, seconds)`:
+    -Set angular velocity of robot wheels for turning
+    -Wait for specified time interval
+    -Stop robot motors
 
-Function `find_golden_token()`:
-    Initialize distance
-    Iterate over visible tokens are seen by the robot:
-        If the token is closer than the initialize distance and it is a golden token:
-            print the code of the token detected
-            Update distance, rotation angle, and code variables
-    If a golden token is found:
-        Print token information
-        If token code is not in list_code:
-           print that this token has been already bring to the reference one
-        Return distance, rotation angle, and code
-    Else:
-        Return -1, -1, -1 indicating no golden token found
+-Function `find_golden_token()`:
+    -Initialize distance
+    -Iterate over visible tokens are seen by the robot:
+        -If the token is closer than the initialize distance and it is a golden token:
+            -print the code of the token detected
+            -Update distance, rotation angle, and code variables
+    -If a golden token is found:
+        -Print token information
+        -If token code is not in list_code:
+           -print that this token has been already bring to the reference one
+        -Return distance, rotation angle, and code
+    -Else:
+        -Return -1, -1, -1 indicating no golden token found
 
-Function `find_centre_token()`:
-    Initialize distance
-    Iterate over visible tokens are seen by the robot:
-        If the token is the reference token (first token in list_code):
-            Update distance, rotation angle, and code variables
-    If the reference token is found:
-        Print that the reference token is found
-        Return distance, rotation angle, and code
-    Else:
-        Return -1, -1, -1 indicating no reference token found
+-Function `find_centre_token()`:
+    -Initialize distance
+    -Iterate over visible tokens are seen by the robot:
+        -If the token is the reference token (first token in list_code):
+            -Update distance, rotation angle, and code variables
+    -If the reference token is found:
+        -Print that the reference token is found
+        -Return distance, rotation angle, and code
+    -Else:
+        -Return -1, -1, -1 indicating no reference token found
 
-Function `bring_to_golden(n)`:
-    Loop indefinitely:
-        Get distance, rotation angle, and code of the reference token
-        If no reference token is detected:
-            Turn the robot to search for the reference token
-        Else if robot is close to the golden token:
-            Release the token near the reference token
-            Decrement the number of token released near to the reference token (n)
-            If n becomes 0:
-                Print success message and exit the program
-            Move robot backward and turn slightly
-            Break the loop
-        Else:
-            Correct robot's position to align with the reference token driving, turning right and turning left the robot
+-Function `bring_to_golden(n)`:
+    -Loop indefinitely:
+        -Get distance, rotation angle, and code of the reference token
+        -If no reference token is detected:
+            -Turn the robot to search for the reference token
+        -Else if robot is close to the golden token:
+            -Release the token near the reference token
+            -Decrement the number of token released near to the reference token (n)
+            -If n becomes 0:
+                -Print success message and exit the program
+            -Move robot backward and turn slightly
+            -Break the loop
+        -Else:
+            -Correct robot's position to align with the reference token driving, turning right and turning left the robot
 
-Function `grab_golden(n)`:
-    Loop indefinitely:
-        Get distance, rotation angle, and code of the golden token
-        If token code is in list_code:
-            Set distance to -1 to skip this token
-        If no golden token is detected:
-            Turn the robot to search for the token
-        Else if robot is close to the golden token:
-            Grab the token
-            Append token code to list_code
-            Decrement count of token grabbed (n)
-            Call bring_to_golden function to bring the grabbed token to the reference token
-            If token is not grabbed successfully:
-                Move robot forward to adjust distance for grabbing
-        Else:
-            Correct robot's position to align with the golden token driving, turning right and turning left the robot
+-Function `grab_golden(n)`:
+    -Loop indefinitely:
+        -Get distance, rotation angle, and code of the golden token
+        -If token code is in list_code:
+            -Set distance to -1 to skip this token
+        -If no golden token is detected:
+            -Turn the robot to search for the token
+        -Else if robot is close to the golden token:
+           -Grab the token
+            -Append token code to list_code
+            -Decrement count of token grabbed (n)
+            -Call bring_to_golden function to bring the grabbed token to the reference token
+            -If token is not grabbed successfully:
+                -Move robot forward to adjust distance for grabbing
+        -Else:
+            -Correct robot's position to align with the golden token driving, turning right and turning left the robot
 
-Function `main()`:
-    Get distance, rotation angle, and code of the first detected golden token
-    Append the token code to list_code
-    Set token count (n) to the total number of tokens in the arena
-    Call grab_golden function
+-Function `main()`:
+    -Get distance, rotation angle, and code of the first detected golden token
+    -Append the token code to list_code
+    -Set token count (n) to the total number of tokens in the arena
+    -Call grab_golden function
 
-Call `main()` function to start the program
+-Call `main()` function to start the program
  
  
