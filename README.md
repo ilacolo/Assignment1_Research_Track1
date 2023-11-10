@@ -85,14 +85,14 @@ In order to make the robot able to complete the tasks, six functions are impleme
 
 Function used to implement the program
 --------------------------------------
-The code contains some functions which alloe the robot to complete all of its task. The function used are the following:
-`drive(speed, seconds)`: it sets the linear velocity
-`turn(speed, seconds)`: it sets the angular velocity
-`find_golden_token()` : it finds the closest golden token
-`fine_centre_token()` : it finds the token which is used as the reference one where the robot bring all other tokens. (In this case the reference frame is the first token which is seen by the robot)
-`bring_to_golden(n)` : it finds the reference token where to bring other tokens and it release the token in the correct position near to the reference token
-`grab_golden(n)` : it grabs tokens to the reference token
-`main()` : In this fuction two values are set: the number of token in the arena and the reference token, which is the first one seen by the robot.
+The code contains some functions which allows the robot to complete all of its tasks. The functions used are the following:
+* `drive(speed, seconds)`: it sets the linear velocity
+* `turn(speed, seconds)`: it sets the angular velocity
+* `find_golden_token()` : it finds the closest golden token
+* `fine_centre_token()` : it finds the token which is used as the reference one where the robot bring all other tokens. (In this case the reference frame is the first token which is seen by the robot)
+* `bring_to_golden(n)` : it finds the reference token where to bring other tokens and it release the token in the correct position near to the reference token
+* `grab_golden(n)` : it grabs tokens to the reference token
+* `main()` : In this fuction two values are set: the number of token in the arena and the reference token, which is the first one seen by the robot.
 
 Initialization of Global variables 
 ----------------------------------
@@ -113,7 +113,7 @@ This is the only function called in the main function of the program. Through an
 -----------------------------
 This function is called inside `grab_golden(n)` function once that robot has grabbed its nearest token. It is similar to the previus one, infact throught an infinite loop while, the function get the distance, the rotation angle and the code of the reference token which is the first one the robot has detected. If no reference token is detected, this function make the robot turn so that he can find it. When the robot finds the reference token where to release the grabbed token, it drive and turn to it. There is a control which helps the robot to be aligned with the reference token. When it is arrived near to the reference token with a spacific threshold, the grabbed token is released in front of the reference one. The function add a counter which helps to count how many tokens have been released in the correct position. When the robot releases a new object, the number decreases and when it is equal to 0, it means that the robot complete the tasks and it exit the program. The fucntion helps also the robot to drive back when it has released the token, to not collide with the released object.
 
-`fine_centre_token()` function
+`find_centre_token()` function
 ------------------------------
 This function allows the tobot to find the reference token where to bring the others. When the robot sees a token it controls that this one is the first token in `list_code` list. If it is, he get the distance, the rotation angle and the code variable and it updates them. If the reference token is found, this function returns the values which have been got before, otherwise, it return three values equal to -1. 
 
@@ -121,8 +121,8 @@ This function allows the tobot to find the reference token where to bring the ot
 ------------------------------
 This function is similar to the previous one, because its task is to find the token nearest to the robot. First of all, it finds from the tokens which are visible, the one that is golden and closer.If it finds the closest object it updates the distance, rotation angle anche code variables of the new found token. If the token seen is the list, it searches another token and if the distance from any token is equale to 100, it understand that there are no objects near to the robot, so the function return three values equal to -1. 
 
-`drive()` and `turn(speed, seconds)` functions
+`drive(speed, seconds)` and `turn(speed, seconds)` functions
 ----------------------------------------------
 These two functions set the linear and the angular velocity and they control the motor which moves the robot.
 
-
+# Pseudocode of the Program
