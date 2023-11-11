@@ -1,20 +1,32 @@
 Python Robotics Simulator
 ================================
-
-This is a simple, portable robot simulator developed by [Student Robotics](https://studentrobotics.org).
-Some of the arenas and the exercises have been modified for the Research Track I course
-
 Tasks of the simulator
 ----------------------
-The aim of this first assignment is to make a simulator for the robotics. The simulator is able to simulate a robot in a bidimensional environment, make it move around the arena and interact with golden token which are the objects collocated around the arena. The robot is able to look around the space where it is moving and to makes decisions in order to grab any token initially collocated around the environment and to make any token grabbed in a specific part of the arena.
+The aim of this first assignment is to make a simulator for the robotics. The simulator is able to simulate a robot in a bidimensional environment, to make it move around the arena and interact with golden token which are the objects collocated around the arena. The robot is able to look around the space where it is moving and to make decisions in order to grab any token initially collocated around the environment and to make any token grabbed amd released in a specific part of the arena.
 
 Installing and running
 ----------------------
-
 The simulator requires a Python 2.7 installation, the [pygame](http://pygame.org/) library, [PyPyBox2D](https://pypi.python.org/pypi/pypybox2d/2.1-r331), and [PyYAML](https://pypi.python.org/pypi/PyYAML/).
 
-Once the dependencies are installed, simply run the `test.py` script to test out the simulator.
+Pygame, unfortunately, can be tricky (though [not impossible](http://askubuntu.com/q/312767)) to install in virtual environments. If you are using `pip`, you might try `pip install hg+https://bitbucket.org/pygame/pygame`, or you could use your operating system's package manager. Windows users could use [Portable Python](http://portablepython.com/). PyPyBox2D and PyYAML are more forgiving, and should install just fine using `pip` or
+`easy_install`.
 
+---
+How to run the code
+-------------------
+In order to copy this reposotiry, it is needed to clone the assignment folder:
+
+    git clone https://github.com/ilacolo/Assignment1_Research_Track1/tree/main
+
+To run the program, use `run.py`, passing it the file names.
+
+```bash
+$ python2 run.py assignment.py
+```
+
+It is neccesay to be in the folder that contain the program.
+
+---
 
 Robot API
 ---------
@@ -78,8 +90,6 @@ for m in markers:
         print " - Arena marker {0} is {1} metres away".format( m.info.offset, m.dist )
 ```
 
-[sr-api]: https://studentrobotics.org/docs/programming/sr/
-
 ## Main of the code and Functions
 In order to make the robot able to complete the tasks, six functions are implemented and they work together in the main() function which is recalled at the end.
 
@@ -89,10 +99,10 @@ The code contains some functions which allows the robot to complete all of its t
 * `drive(speed, seconds)`: it sets the linear velocity
 * `turn(speed, seconds)`: it sets the angular velocity
 * `find_golden_token()` : it finds the closest golden token
-* `fine_centre_token()` : it finds the token which is used as the reference one where the robot bring all other tokens. (In this case the reference frame is the first token which is seen by the robot)
-* `bring_to_golden(n)` : it finds the reference token where to bring other tokens and it release the token in the correct position near to the reference token
+* `fine_centre_token()` : it finds the token which is used as the reference one where the robot bring all other tokens. (In this case the reference frame is the first token detected by the robot)
+* `bring_to_golden(n)` : it finds the reference token where to bring other tokens and it releases the token in the correct position near to the reference token
 * `grab_golden(n)` : it grabs tokens to the reference token
-* `main()` : In this fuction two values are set: the number of token in the arena and the reference token, which is the first one seen by the robot.
+* `main()` : In this fuction two values are set: the number of tokens in the arena and the reference token, which is the first one seen by the robot when it starts to turn.
 
 Initialization of Global variables 
 ----------------------------------
@@ -103,15 +113,15 @@ Global variables set at the beginning are:
 
 Main function
 -------------
-The main function `main()` is simple. In this part of the code it is possible to obtain the distance, the rotation angle and the code, which is the identification number of the token, of the first detected token. Then it is need to fix the code of this first token in the list of codes initialized as global variable. In the end the number of token that it is possible to find in the arena is set to 6, and with this initialization the function grab_golden() is called. 
+The main function `main()` is simple. In this part of the code it is possible to obtain the distance, the rotation angle and the code, which is the identification number of the token of the first detected token. Then it is need to fix the code of this first token in the list of codes `liste_code` initialized as global variable. In the end the number of token that it is possible to find in the arena is set to 6, and with this initialization the function grab_golden() is called. 
 
 `grab_golden(n)` function
 --------------------------
-This is the only function called in the main function of the program. Through an infinite loop while, this function calls the function `find_golden_token()` in order to find golden token which is nearest the robot. Then this part of the code checks that the code of the detected token has not already grabbed and brought it to the reference token. If the nearest token has already grabbed, so its code is in `liste_code` list, the function assign -1 to the distance so that the robot turns around itself to find the other nearest golden token. Infact, if the distant is equal to -1, the robot does not detect any token, so it turns to find ones and then it drives to it. There is also a control which helps the robot to correct the position to align its to the golden token to grab. If the robot arrives near to the token, the function allows the robot to grab the token, and the identification code of the token grabbed is fixed in list. There is also a counter which decreases when a token is grabbed, to help undestanding how many object the robot has to grab to complete its tasks. At the end, this function calls the function `bring_to_golden(n)` in order to bring the grabbed token to the reference token. 
+This is the only function called in the main function of the program. Through an infinite loop while, this function calls the function `find_golden_token()` in order to find golden token which is nearest the robot. Then this part of the code checks that the code of the detected token has not already grabbed and brought it to the reference token. If the nearest token has already grabbed, so its code is in `liste_code` list, the function assign -1 to the distance so that the robot turns around itself to find the other nearest golden token. Infact, if the distant is equal to -1, the robot does not detect any token, so it turns to find another one object and then it drives to it. There is also a control which helps the robot to correct the position to aligns its to the golden token to grab. If the robot arrives near to the token, the function allows the robot to grab the token, and the identification code of the token grabbed is fixed in list. There is also a counter which decreases when a token is grabbed, to help undestanding how many object the robot has to grab to complete its tasks. At the end, this function calls the function `bring_to_golden(n)` in order to bring the grabbed token to the reference token. 
 
 `bring_to_golden(n)` function
 -----------------------------
-This function is called inside `grab_golden(n)` function once that robot has grabbed its nearest token. It is similar to the previus one, infact throught an infinite loop while, the function get the distance, the rotation angle and the code of the reference token which is the first one the robot has detected. If no reference token is detected, this function make the robot turn so that he can find it. When the robot finds the reference token where to release the grabbed token, it drive and turn to it. There is a control which helps the robot to be aligned with the reference token. When it is arrived near to the reference token with a spacific threshold, the grabbed token is released in front of the reference one. The function add a counter which helps to count how many tokens have been released in the correct position. When the robot releases a new object, the number decreases and when it is equal to 0, it means that the robot complete the tasks and it exit the program. The fucntion helps also the robot to drive back when it has released the token, to not collide with the released object.
+This function is called inside `grab_golden(n)` function once that robot has grabbed its nearest token. It is similar to the previus one, infact throught an infinite loop while, the function get the distance, the rotation angle and the code of the reference token which is the first one the robot has detected. If no reference token is detected, this function make the robot turn so that he can find it. When the robot finds the reference token where to release the grabbed token, it drive and turn to it. There is a control which helps the robot to be aligned with the reference token. When it is arrived near to the reference token with a spacific threshold, the grabbed token is released in front of the reference one. The function adds a counter which helps to count how many tokens have been released in the correct position. When the robot releases a new object, the number decreases and when it is equal to 0, it means that the robot has completed its tasks and it exits the program. The fucntion helps also the robot to drive back when it has released the token, to not collide with the released object.
 
 `find_centre_token()` function
 ------------------------------
@@ -211,7 +221,9 @@ These two functions set the linear and the angular velocity and they control the
 
 Possible improvements of the code
 --------------------------------
-The program could be improve in these ways:
- * It is possible to add another list where to fix the codes of token released. This list could be use in order to make the last token relased the reference one. In this way, it is possible to bring the grabbed golden token to the one which has been just released and not to the first one detected when the robot start to turn. This improvement could decrease the collisions beteen the robot and tokens and also between the tokens released.
- * Is is possible to create another function which make the robot turn around itself of 360 degrees, in order to append all the codes of the tokens in a list and then to obtain variables of the token with the shortest distance from the robot. In this way the robot checks the distances from all the tokens and not only of the token that is in its line of sight. This improvement coud increase the time efficency.
- * It is also possible to work with Cartesian coordinates in order to fix the point where the robot could bring all the a tokens. This implementation is the most complicated because it is needed to fix a reference frame in the arena, then calculate all the coordinates using the distances between the objects. This improveement needs more functions, but it could improve the control of robot's moviments and the control of the token's position. 
+The program could be improved in these ways:
+ * It is possible to add another list where to fix the codes of token released. This list could be used in order to make the last token relased the reference one. In this way, it is possible to bring the grabbed golden token to the one which has been just released and not to the first one detected when the robot starts to turn. This improvement could decrease the collisions beteen the robot and tokens and also between the tokens released.
+ * It is possible to create another function which makes the robot turn around itself of 360 degrees, in order to append all the codes of the tokens in a list and then to obtain variables of the token with the shortest distance from the robot. In this way the robot checks the distances from all the tokens and not only of the token that is in its line of sight. This improvement coud increase the time efficency.
+ * It is also possible to work with Cartesian coordinates in order to fix the point where the robot could bring all the a tokens. This implementation is the most complicated because it is needed to fix a reference frame in the arena, then to calculate all the coordinates using the distances between the objects. This improveement needs more functions, but it could improve the control of robot's moviments and the control of the tokens' positions.
+
+[sr-api]: https://studentrobotics.org/docs/programming/sr/
